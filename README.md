@@ -1,4 +1,4 @@
-<h1 align="center">Hi there, I'm Li Zhiyue (李志越) 👋</h1>
+<h1 align="center">Hi there, I'm Li Zhiyue (李智月) 👋</h1>
 
 <p align="center">
   <a href="mailto:lizhiyue0317@gmail.com"><img src="https://img.shields.io/badge/Email-lizhiyue0317%40gmail.com-blue?style=flat-square&logo=gmail" alt="Email"/></a>
