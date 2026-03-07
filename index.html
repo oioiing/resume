@@ -757,12 +757,12 @@
 <!-- Toggle controls -->
 <div class="toggle-controls">
   <div class="toggle-group">
-    <button class="toggle-btn" id="theme-toggle" onclick="toggleTheme()">Dark</button>
+    <button class="toggle-btn" id="theme-toggle" onclick="toggleTheme()" aria-label="Switch color theme" aria-pressed="false">Dark</button>
   </div>
-  <span class="toggle-sep">|</span>
-  <div class="toggle-group">
-    <button class="toggle-btn" id="lang-zh-btn" onclick="setLang('zh')">中文</button>
-    <button class="toggle-btn" id="lang-en-btn" onclick="setLang('en')">EN</button>
+  <span class="toggle-sep" aria-hidden="true">|</span>
+  <div class="toggle-group" role="group" aria-label="Language selector">
+    <button class="toggle-btn" id="lang-zh-btn" onclick="setLang('zh')" aria-label="Switch to Chinese" aria-pressed="true">中文</button>
+    <button class="toggle-btn" id="lang-en-btn" onclick="setLang('en')" aria-label="Switch to English" aria-pressed="false">EN</button>
   </div>
 </div>
 
@@ -1076,7 +1076,9 @@ function toggleTheme() {
   var next = current === 'light' ? 'dark' : 'light';
   html.setAttribute('data-theme', next);
   localStorage.setItem('theme', next);
-  document.getElementById('theme-toggle').textContent = next === 'light' ? 'Light' : 'Dark';
+  var btn = document.getElementById('theme-toggle');
+  btn.textContent = next === 'light' ? 'Light' : 'Dark';
+  btn.setAttribute('aria-pressed', next === 'light' ? 'true' : 'false');
 }
 
 /* ============================================================
@@ -1091,8 +1093,8 @@ function setLang(lang) {
 function updateLangBtns(lang) {
   var zhBtn = document.getElementById('lang-zh-btn');
   var enBtn = document.getElementById('lang-en-btn');
-  if (zhBtn) zhBtn.classList.toggle('active', lang === 'zh');
-  if (enBtn) enBtn.classList.toggle('active', lang === 'en');
+  if (zhBtn) { zhBtn.classList.toggle('active', lang === 'zh'); zhBtn.setAttribute('aria-pressed', lang === 'zh' ? 'true' : 'false'); }
+  if (enBtn) { enBtn.classList.toggle('active', lang === 'en'); enBtn.setAttribute('aria-pressed', lang === 'en' ? 'true' : 'false'); }
 }
 
 /* ============================================================
@@ -1102,7 +1104,10 @@ function updateLangBtns(lang) {
   var themeSaved = localStorage.getItem('theme') || 'dark';
   document.documentElement.setAttribute('data-theme', themeSaved);
   var themeBtn = document.getElementById('theme-toggle');
-  if (themeBtn) themeBtn.textContent = themeSaved === 'light' ? 'Light' : 'Dark';
+  if (themeBtn) {
+    themeBtn.textContent = themeSaved === 'light' ? 'Light' : 'Dark';
+    themeBtn.setAttribute('aria-pressed', themeSaved === 'light' ? 'true' : 'false');
+  }
 
   var langSaved = localStorage.getItem('lang') || 'zh';
   document.documentElement.setAttribute('data-lang', langSaved);
