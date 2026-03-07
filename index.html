@@ -474,7 +474,7 @@
     ============================================================ */
     [data-lang="en"] .lang-zh,
     [data-lang="zh"] .lang-en {
-      display: none !important;
+      display: none;
     }
 
     /* ============================================================
@@ -929,61 +929,52 @@
    COURSE TABLE TOGGLE
 ============================================================ */
 function toggleCourses() {
-  const wrap = document.getElementById('course-wrap');
-  wrap.classList.toggle('open');
-  updateCourseBtn();
+  var wrap = document.getElementById('course-wrap');
+  var open = wrap.classList.toggle('open');
+  var btn = document.getElementById('course-btn');
+  var zhSpan = btn.querySelector('.lang-zh');
+  var enSpan = btn.querySelector('.lang-en');
+  if (zhSpan) zhSpan.textContent = open ? '收起课程成绩' : '查看相关课程成绩';
+  if (enSpan) enSpan.textContent = open ? 'Hide Course Grades' : 'View Course Grades';
 }
 
 /* ============================================================
    THEME TOGGLE
 ============================================================ */
 function toggleTheme() {
-  const html = document.documentElement;
-  const current = html.getAttribute('data-theme');
-  const next = current === 'light' ? 'dark' : 'light';
+  var html = document.documentElement;
+  var current = html.getAttribute('data-theme');
+  var next = current === 'light' ? 'dark' : 'light';
   html.setAttribute('data-theme', next);
   localStorage.setItem('theme', next);
   document.getElementById('theme-toggle').textContent = next === 'light' ? '☀️' : '🌙';
 }
 
-// Initialize theme from localStorage
-(function initTheme() {
-  const saved = localStorage.getItem('theme') || 'dark';
-  document.documentElement.setAttribute('data-theme', saved);
-  document.getElementById('theme-toggle').textContent = saved === 'light' ? '☀️' : '🌙';
-})();
-
 /* ============================================================
    LANGUAGE TOGGLE
 ============================================================ */
 function toggleLang() {
-  const html = document.documentElement;
-  const current = html.getAttribute('data-lang');
-  const next = current === 'en' ? 'zh' : 'en';
+  var html = document.documentElement;
+  var current = html.getAttribute('data-lang');
+  var next = current === 'en' ? 'zh' : 'en';
   html.setAttribute('data-lang', next);
   localStorage.setItem('lang', next);
   document.getElementById('lang-toggle').textContent = next === 'en' ? 'EN' : '中';
-  // Update course toggle button text
-  updateCourseBtn();
 }
 
-function updateCourseBtn() {
-  const btn = document.getElementById('course-btn');
-  const lang = document.documentElement.getAttribute('data-lang');
-  const wrap = document.getElementById('course-wrap');
-  const isOpen = wrap.classList.contains('open');
-  if (lang === 'en') {
-    btn.textContent = isOpen ? '📚 Hide Course Grades' : '📚 View Course Grades';
-  } else {
-    btn.textContent = isOpen ? '📚 收起课程成绩' : '📚 查看相关课程成绩';
-  }
-}
+/* ============================================================
+   INIT THEME & LANGUAGE FROM localStorage
+============================================================ */
+(function init() {
+  var themeSaved = localStorage.getItem('theme') || 'dark';
+  document.documentElement.setAttribute('data-theme', themeSaved);
+  var themeBtn = document.getElementById('theme-toggle');
+  if (themeBtn) themeBtn.textContent = themeSaved === 'light' ? '☀️' : '🌙';
 
-// Initialize language from localStorage
-(function initLang() {
-  const saved = localStorage.getItem('lang') || 'zh';
-  document.documentElement.setAttribute('data-lang', saved);
-  document.getElementById('lang-toggle').textContent = saved === 'en' ? 'EN' : '中';
+  var langSaved = localStorage.getItem('lang') || 'zh';
+  document.documentElement.setAttribute('data-lang', langSaved);
+  var langBtn = document.getElementById('lang-toggle');
+  if (langBtn) langBtn.textContent = langSaved === 'en' ? 'EN' : '中';
 })();
 </script>
 </body>
