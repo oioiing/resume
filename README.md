@@ -1,6 +1,12 @@
 <h1 align="center">Hi there, I'm Li Zhiyue (李智月) 👋</h1>
 
 <p align="center">
+  <a href="https://oioiing.github.io/resume/" target="_blank">
+    <img src="https://img.shields.io/badge/🌐_Live_Resume-Visit_Now-6e8cff?style=for-the-badge" alt="Live Resume"/>
+  </a>
+</p>
+
+<p align="center">
   <a href="mailto:lizhiyue0317@gmail.com"><img src="https://img.shields.io/badge/Email-lizhiyue0317%40gmail.com-blue?style=flat-square&logo=gmail" alt="Email"/></a>
   <img src="https://img.shields.io/badge/CET--6-428-green?style=flat-square" alt="CET-6"/>
   <img src="https://img.shields.io/badge/GPA-3.19%2F4.0-orange?style=flat-square" alt="GPA"/>

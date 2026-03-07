@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>李智月 | Li Zhiyue — Resume</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;600;700;800&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    /* ============================================================
+       RESET & BASE
+    ============================================================ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg:        #0d1117;
+      --bg2:       #161b22;
+      --surface:   rgba(22, 27, 34, 0.75);
+      --border:    rgba(110, 140, 255, 0.18);
+      --accent:    #6e8cff;
+      --accent2:   #a78bfa;
+      --accent3:   #34d399;
+      --text:      #e6edf3;
+      --text2:     #8b949e;
+      --card-r:    16px;
+      --trans:     0.35s cubic-bezier(.4,0,.2,1);
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', 'Segoe UI', sans-serif;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* ============================================================
+       CANVAS BACKGROUND
+    ============================================================ */
+    #bg-canvas {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* ============================================================
+       NAV
+    ============================================================ */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 16px;
+      background: rgba(13,17,23,0.8);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    nav a {
+      font-size: 0.82rem;
+      font-weight: 600;
+      letter-spacing: .04em;
+      color: var(--text2);
+      padding: 4px 12px;
+      border-radius: 20px;
+      transition: color var(--trans), background var(--trans);
+    }
+    nav a:hover, nav a.active {
+      color: var(--accent);
+      background: rgba(110,140,255,0.12);
+      text-decoration: none;
+    }
+
+    /* ============================================================
+       LAYOUT
+    ============================================================ */
+    main {
+      position: relative;
+      z-index: 1;
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 80px 20px 60px;
+    }
+    section { margin-bottom: 72px; }
+
+    /* ============================================================
+       HERO
+    ============================================================ */
+    #hero {
+      text-align: center;
+      padding: 80px 0 40px;
+    }
+    .avatar-ring {
+      width: 110px; height: 110px;
+      border-radius: 50%;
+      margin: 0 auto 24px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2), var(--accent3));
+      padding: 3px;
+      animation: spin-ring 6s linear infinite;
+    }
+    @keyframes spin-ring {
+      from { filter: hue-rotate(0deg); }
+      to   { filter: hue-rotate(360deg); }
+    }
+    .avatar-inner {
+      width: 100%; height: 100%;
+      border-radius: 50%;
+      background: var(--bg);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2.6rem;
+    }
+    #hero h1 {
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 800;
+      letter-spacing: -.02em;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      min-height: 1.2em;
+    }
+    #hero .subtitle {
+      margin-top: 8px;
+      color: var(--text2);
+      font-size: 1rem;
+    }
+    .badges {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 20px;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: 20px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text2);
+      backdrop-filter: blur(8px);
+      transition: transform var(--trans), border-color var(--trans);
+    }
+    .badge:hover { transform: translateY(-2px); border-color: var(--accent); color: var(--text); }
+    .badge .dot { width: 7px; height: 7px; border-radius: 50%; }
+
+    /* ============================================================
+       SECTION TITLES
+    ============================================================ */
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 1.25rem;
+      font-weight: 700;
+      letter-spacing: .03em;
+      margin-bottom: 28px;
+      color: var(--text);
+    }
+    .section-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, var(--border), transparent);
+    }
+    .section-icon {
+      width: 36px; height: 36px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+
+    /* ============================================================
+       CARD
+    ============================================================ */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--card-r);
+      padding: 24px 28px;
+      backdrop-filter: blur(12px);
+      transition: transform var(--trans), border-color var(--trans), box-shadow var(--trans);
+    }
+    .card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(110,140,255,0.45);
+      box-shadow: 0 12px 40px rgba(110,140,255,0.15);
+    }
+
+    /* ============================================================
+       EDUCATION
+    ============================================================ */
+    .edu-header { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+    .edu-header h3 { font-size: 1.05rem; font-weight: 700; }
+    .edu-header .date { color: var(--accent3); font-size: 0.85rem; font-weight: 600; }
+    .edu-sub { color: var(--text2); font-size: 0.9rem; margin-top: 4px; }
+    .edu-gpa {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 3px 12px;
+      background: rgba(52,211,153,0.12);
+      border: 1px solid rgba(52,211,153,0.3);
+      border-radius: 20px;
+      font-size: 0.82rem;
+      color: var(--accent3);
+      font-weight: 600;
+    }
+    /* Course table */
+    .course-toggle {
+      margin-top: 16px;
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text2);
+      font-size: 0.83rem;
+      padding: 6px 14px;
+      cursor: pointer;
+      transition: border-color var(--trans), color var(--trans);
+    }
+    .course-toggle:hover { border-color: var(--accent); color: var(--accent); }
+    .course-table-wrap {
+      overflow: hidden;
+      max-height: 0;
+      transition: max-height .5s cubic-bezier(.4,0,.2,1);
+    }
+    .course-table-wrap.open { max-height: 600px; }
+    table { width: 100%; border-collapse: collapse; margin-top: 14px; font-size: 0.85rem; }
+    th, td { padding: 8px 12px; border: 1px solid var(--border); text-align: left; }
+    th { background: rgba(110,140,255,0.08); color: var(--accent); font-weight: 600; }
+    td:last-child { text-align: center; color: var(--accent3); font-weight: 600; }
+
+    /* ============================================================
+       AWARDS
+    ============================================================ */
+    .awards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 16px;
+    }
+    .award-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--card-r);
+      padding: 18px 20px;
+      backdrop-filter: blur(12px);
+      transition: transform var(--trans), border-color var(--trans), box-shadow var(--trans);
+      position: relative;
+      overflow: hidden;
+    }
+    .award-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+    }
+    .award-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(110,140,255,0.4);
+      box-shadow: 0 8px 30px rgba(110,140,255,0.15);
+    }
+    .award-medal { font-size: 1.5rem; margin-bottom: 8px; }
+    .award-title { font-size: 0.88rem; font-weight: 700; margin-bottom: 6px; }
+    .award-meta { font-size: 0.78rem; color: var(--text2); }
+    .award-level {
+      display: inline-block;
+      margin-top: 8px;
+      padding: 2px 10px;
+      border-radius: 12px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+    .level-intl  { background: rgba(167,139,250,0.15); color: var(--accent2); border: 1px solid rgba(167,139,250,.3); }
+    .level-natl  { background: rgba(110,140,255,0.15); color: var(--accent);  border: 1px solid rgba(110,140,255,.3); }
+    .level-prov  { background: rgba(52,211,153,0.12);  color: var(--accent3); border: 1px solid rgba(52,211,153,.3); }
+
+    /* ============================================================
+       TIMELINE (Projects)
+    ============================================================ */
+    .timeline { position: relative; padding-left: 28px; }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 9px; top: 6px; bottom: 6px;
+      width: 2px;
+      background: linear-gradient(to bottom, var(--accent), var(--accent2), transparent);
+      border-radius: 2px;
+    }
+    .tl-item { position: relative; margin-bottom: 32px; }
+    .tl-item:last-child { margin-bottom: 0; }
+    .tl-dot {
+      position: absolute;
+      left: -24px; top: 6px;
+      width: 12px; height: 12px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      box-shadow: 0 0 0 3px rgba(110,140,255,0.2);
+      transition: box-shadow var(--trans);
+    }
+    .tl-item:hover .tl-dot { box-shadow: 0 0 0 6px rgba(110,140,255,0.25); }
+    .tl-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--card-r); padding: 22px 24px; backdrop-filter: blur(10px); transition: transform var(--trans), border-color var(--trans), box-shadow var(--trans); }
+    .tl-card:hover { transform: translateX(4px); border-color: rgba(110,140,255,0.4); box-shadow: 0 8px 28px rgba(110,140,255,0.12); }
+    .tl-header { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
+    .tl-title { font-size: 1rem; font-weight: 700; }
+    .tl-date  { font-size: 0.8rem; color: var(--accent3); font-weight: 600; background: rgba(52,211,153,0.1); border: 1px solid rgba(52,211,153,.2); padding: 2px 10px; border-radius: 12px; }
+    .tl-role  { font-size: 0.82rem; color: var(--accent); font-weight: 600; margin-bottom: 8px; }
+    .tl-desc  { font-size: 0.88rem; color: var(--text2); margin-bottom: 12px; line-height: 1.65; }
+    .tl-list  { list-style: none; font-size: 0.87rem; }
+    .tl-list li { display: flex; align-items: flex-start; gap: 8px; margin-bottom: 5px; }
+    .tl-list li::before { content: '▸'; color: var(--accent); flex-shrink: 0; margin-top: 2px; }
+    .tl-achieve { margin-top: 12px; padding: 10px 14px; background: rgba(110,140,255,0.06); border-left: 3px solid var(--accent); border-radius: 4px; font-size: 0.83rem; color: var(--text2); }
+    .tl-achieve strong { color: var(--accent); }
+
+    /* ============================================================
+       SKILLS
+    ============================================================ */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 16px;
+    }
+    .skill-category { background: var(--surface); border: 1px solid var(--border); border-radius: var(--card-r); padding: 20px 22px; backdrop-filter: blur(10px); }
+    .skill-cat-title { font-size: 0.85rem; font-weight: 700; color: var(--accent); letter-spacing: .06em; text-transform: uppercase; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+    .skill-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+    .skill-tag {
+      padding: 4px 12px;
+      background: rgba(110,140,255,0.1);
+      border: 1px solid rgba(110,140,255,0.2);
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text);
+      transition: background var(--trans), border-color var(--trans), transform var(--trans);
+      cursor: default;
+    }
+    .skill-tag:hover { background: rgba(110,140,255,0.25); border-color: var(--accent); transform: scale(1.05); }
+
+    /* ============================================================
+       CONTACT
+    ============================================================ */
+    .contact-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      justify-content: center;
+    }
+    .contact-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 22px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 50px;
+      backdrop-filter: blur(10px);
+      color: var(--text);
+      font-size: 0.9rem;
+      font-weight: 600;
+      transition: transform var(--trans), border-color var(--trans), box-shadow var(--trans);
+    }
+    .contact-item:hover {
+      transform: translateY(-3px);
+      border-color: var(--accent);
+      box-shadow: 0 8px 24px rgba(110,140,255,.2);
+      text-decoration: none;
+      color: var(--accent);
+    }
+    .contact-icon { font-size: 1.2rem; }
+
+    /* ============================================================
+       FOOTER QUOTE
+    ============================================================ */
+    .footer-quote {
+      text-align: center;
+      color: var(--text2);
+      font-style: italic;
+      font-size: 0.9rem;
+      margin-top: 24px;
+      padding-top: 32px;
+      border-top: 1px solid var(--border);
+    }
+
+    /* ============================================================
+       SCROLL-REVEAL
+    ============================================================ */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity .6s ease, transform .6s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    /* ============================================================
+       SCROLL PROGRESS BAR
+    ============================================================ */
+    #scroll-bar {
+      position: fixed;
+      top: 0; left: 0;
+      height: 3px;
+      width: 0%;
+      background: linear-gradient(90deg, var(--accent), var(--accent2), var(--accent3));
+      z-index: 200;
+      transition: width .1s linear;
+    }
+
+    /* ============================================================
+       RESPONSIVE
+    ============================================================ */
+    @media (max-width: 600px) {
+      nav { gap: 4px; padding: 10px 8px; }
+      nav a { font-size: 0.72rem; padding: 3px 8px; }
+      main { padding: 72px 14px 40px; }
+      .tl-card { padding: 16px; }
+      .card { padding: 18px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Scroll progress bar -->
+<div id="scroll-bar"></div>
+
+<!-- Particle canvas -->
+<canvas id="bg-canvas"></canvas>
+
+<!-- Navigation -->
+<nav id="nav">
+  <a href="#hero"      class="active">主页</a>
+  <a href="#education">教育</a>
+  <a href="#awards">   荣誉</a>
+  <a href="#projects"> 项目</a>
+  <a href="#skills">   技能</a>
+  <a href="#contact">  联系</a>
+</nav>
+
+<main>
+
+  <!-- ====== HERO ====== -->
+  <section id="hero">
+    <div class="avatar-ring">
+      <div class="avatar-inner">🌙</div>
+    </div>
+    <h1 id="typed-title"></h1>
+    <p class="subtitle">Computer Science &amp; Technology · Xinjiang University</p>
+    <div class="badges">
+      <span class="badge"><span class="dot" style="background:#6e8cff"></span>GPA 3.19 / 4.0</span>
+      <span class="badge"><span class="dot" style="background:#34d399"></span>CET-6 428</span>
+      <span class="badge"><span class="dot" style="background:#a78bfa"></span>iGEM 国际银奖</span>
+      <span class="badge"><span class="dot" style="background:#f59e0b"></span>软著登字第12098830号</span>
+    </div>
+  </section>
+
+  <!-- ====== EDUCATION ====== -->
+  <section id="education">
+    <div class="section-title reveal">
+      <div class="section-icon">🎓</div>
+      教育背景
+    </div>
+    <div class="card reveal">
+      <div class="edu-header">
+        <h3>新疆大学 · 未来技术学院</h3>
+        <span class="date">2020.09 — 2024.06</span>
+      </div>
+      <div class="edu-sub">计算机科学与技术 · 工学学士</div>
+      <span class="edu-gpa">GPA 3.19 / 4.0</span>
+      <button class="course-toggle" id="course-btn" onclick="toggleCourses()">📚 查看相关课程成绩</button>
+      <div class="course-table-wrap" id="course-wrap">
+        <table>
+          <thead><tr><th>课程名称</th><th>成绩</th></tr></thead>
+          <tbody>
+            <tr><td>程序设计基础</td><td>94</td></tr>
+            <tr><td>信息科学概论</td><td>98</td></tr>
+            <tr><td>高等代数与几何</td><td>88</td></tr>
+            <tr><td>面向对象程序设计</td><td>88</td></tr>
+            <tr><td>程序设计方法与实践</td><td>91</td></tr>
+            <tr><td>数据库系统原理</td><td>91</td></tr>
+            <tr><td>操作系统原理</td><td>89</td></tr>
+            <tr><td>人工智能概论</td><td>91</td></tr>
+            <tr><td>计算机网络</td><td>80</td></tr>
+            <tr><td>科学与工程计算</td><td>80</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== AWARDS ====== -->
+  <section id="awards">
+    <div class="section-title reveal">
+      <div class="section-icon">🏆</div>
+      荣誉奖项
+    </div>
+    <div class="awards-grid">
+      <div class="award-card reveal">
+        <div class="award-medal">🥈</div>
+        <div class="award-title">iGEM 国际基因工程机器大赛</div>
+        <div class="award-meta">2023.11</div>
+        <span class="award-level level-intl">国际银奖</span>
+      </div>
+      <div class="award-card reveal">
+        <div class="award-medal">🥈</div>
+        <div class="award-title">H3C 全国高校数字技术大赛</div>
+        <div class="award-meta">2022.10</div>
+        <span class="award-level level-prov">新疆赛区二等奖</span>
+      </div>
+      <div class="award-card reveal">
+        <div class="award-medal">🥉</div>
+        <div class="award-title">互联网+ 大学生创新创业大赛</div>
+        <div class="award-meta">2023.08</div>
+        <span class="award-level level-prov">新疆赛区铜奖</span>
+      </div>
+      <div class="award-card reveal">
+        <div class="award-medal">🥈</div>
+        <div class="award-title">大学物理实验竞赛（命题创新）</div>
+        <div class="award-meta">2021.09</div>
+        <span class="award-level level-natl">二等奖</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== PROJECTS ====== -->
+  <section id="projects">
+    <div class="section-title reveal">
+      <div class="section-icon">🔬</div>
+      项目经历
+    </div>
+    <div class="timeline">
+
+      <div class="tl-item reveal">
+        <div class="tl-dot"></div>
+        <div class="tl-card">
+          <div class="tl-header">
+            <div class="tl-title">🧬 iGEM — 国际基因工程机器大赛</div>
+            <span class="tl-date">2023.04 — 2023.11</span>
+          </div>
+          <div class="tl-role">网页组负责人 &amp; 数据分析</div>
+          <div class="tl-desc">筛选并验证增强微生物耐盐碱性的关键基因，利用多组学（基因组学、转录组学）联合分析方法，在大肠杆菌和枯草芽孢杆菌中完成功能验证。</div>
+          <ul class="tl-list">
+            <li>主导项目官网前端开发——UI 设计、部署与科学数据可视化</li>
+            <li>使用 Python 和 R 完成数据清洗、分析与可视化</li>
+            <li>独立参与微生物培养和基因功能验证湿实验</li>
+          </ul>
+          <div class="tl-achieve">🏅 国际银奖</div>
+        </div>
+      </div>
+
+      <div class="tl-item reveal">
+        <div class="tl-dot"></div>
+        <div class="tl-card">
+          <div class="tl-header">
+            <div class="tl-title">🦴 国家级大创项目 — 骨质疏松专题数据库</div>
+            <span class="tl-date">2022.09 — 2024.06</span>
+          </div>
+          <div class="tl-role">前端开发 &amp; 数据分析</div>
+          <div class="tl-desc">针对老龄化背景下骨质疏松公众认知不足的问题，构建多模态数据融合的专题数据库，辅助医生及用户进行骨健康评估与个性化防治。</div>
+          <ul class="tl-list">
+            <li>独立完成前端搭建、UI 设计、功能优化与部署上线</li>
+            <li>负责数据预处理、清洗和分析，支持风险评估模型构建</li>
+            <li>参与 Bagging 集成学习与深度学习骨质疏松风险评估模型训练</li>
+          </ul>
+          <div class="tl-achieve">📜 软件著作权 — <strong>软著登字第12098830号</strong></div>
+        </div>
+      </div>
+
+      <div class="tl-item reveal">
+        <div class="tl-dot"></div>
+        <div class="tl-card">
+          <div class="tl-header">
+            <div class="tl-title">🦠 互联网+ — 病死畜禽无害化处理</div>
+            <span class="tl-date">2023.08</span>
+          </div>
+          <div class="tl-role">项目负责人</div>
+          <div class="tl-desc">开发基于微生物的病死畜禽高效低污染无害化处理方案，创新微生物菌群比例和模块化发酵装置，实现快速降解、尾气集中处理与有机肥转化。</div>
+          <ul class="tl-list">
+            <li>负责整体项目规划、团队管理和研发协调</li>
+            <li>参与核心技术设计与优化；监督发酵装置研发及微生物调试</li>
+            <li>主导竞赛申报材料、对外展示及项目推广</li>
+          </ul>
+          <div class="tl-achieve">📜 参与起草 <strong>T/WSWXH 007—2022</strong> 新疆微生物学会团体标准</div>
+        </div>
+      </div>
+
+      <div class="tl-item reveal">
+        <div class="tl-dot"></div>
+        <div class="tl-card">
+          <div class="tl-header">
+            <div class="tl-title">🤖 AI 实验室科研</div>
+            <span class="tl-date">2022.09 — 2024.06</span>
+          </div>
+          <div class="tl-role">科研助理</div>
+          <div class="tl-desc">在导师指导下从事多模态数据处理与融合研究，参与深度学习多模态分类模型优化及多源异构数据对齐与融合算法设计。</div>
+          <ul class="tl-list">
+            <li>负责多模态数据预处理与数据清洗流水线设计</li>
+            <li>使用 PyTorch 训练和调优深度学习模型</li>
+            <li>协助开发多源异构数据对齐与融合算法</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ====== SKILLS ====== -->
+  <section id="skills">
+    <div class="section-title reveal">
+      <div class="section-icon">🛠️</div>
+      技术技能
+    </div>
+    <div class="skills-grid">
+      <div class="skill-category reveal">
+        <div class="skill-cat-title">💻 编程语言</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Python</span>
+          <span class="skill-tag">R</span>
+          <span class="skill-tag">JavaScript</span>
+          <span class="skill-tag">HTML / CSS</span>
+          <span class="skill-tag">C / C++</span>
+        </div>
+      </div>
+      <div class="skill-category reveal">
+        <div class="skill-cat-title">⚙️ 框架与工具</div>
+        <div class="skill-tags">
+          <span class="skill-tag">PyTorch</span>
+          <span class="skill-tag">Bagging</span>
+          <span class="skill-tag">Git</span>
+          <span class="skill-tag">Linux</span>
+        </div>
+      </div>
+      <div class="skill-category reveal">
+        <div class="skill-cat-title">📊 数据技能</div>
+        <div class="skill-tags">
+          <span class="skill-tag">数据预处理</span>
+          <span class="skill-tag">特征工程</span>
+          <span class="skill-tag">数据可视化</span>
+          <span class="skill-tag">多组学分析</span>
+        </div>
+      </div>
+      <div class="skill-category reveal">
+        <div class="skill-cat-title">🌐 Web &amp; 其他</div>
+        <div class="skill-tags">
+          <span class="skill-tag">前端开发</span>
+          <span class="skill-tag">Web 部署</span>
+          <span class="skill-tag">微生物培养</span>
+          <span class="skill-tag">基因功能验证</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== CONTACT ====== -->
+  <section id="contact">
+    <div class="section-title reveal">
+      <div class="section-icon">📬</div>
+      联系方式
+    </div>
+    <div class="contact-wrap reveal">
+      <a href="mailto:lizhiyue0317@gmail.com" class="contact-item">
+        <span class="contact-icon">📧</span>
+        lizhiyue0317@gmail.com
+      </a>
+    </div>
+    <p class="footer-quote reveal">"Learning by doing — from frontend to wet lab, from algorithms to experiments."</p>
+  </section>
+
+</main>
+
+<script>
+/* ============================================================
+   PARTICLES
+============================================================ */
+(function () {
+  const canvas = document.getElementById('bg-canvas');
+  const ctx    = canvas.getContext('2d');
+  let W, H, particles = [];
+
+  function resize() {
+    W = canvas.width  = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  }
+  window.addEventListener('resize', resize);
+  resize();
+
+  const COLORS = ['#6e8cff','#a78bfa','#34d399','#60a5fa'];
+
+  class Particle {
+    constructor() { this.reset(true); }
+    reset(init) {
+      this.x  = Math.random() * W;
+      this.y  = init ? Math.random() * H : H + 10;
+      this.r  = Math.random() * 1.5 + 0.4;
+      this.vx = (Math.random() - 0.5) * 0.3;
+      this.vy = -(Math.random() * 0.4 + 0.15);
+      this.alpha = Math.random() * 0.5 + 0.2;
+      this.color = COLORS[Math.floor(Math.random() * COLORS.length)];
+    }
+    update() {
+      this.x += this.vx;
+      this.y += this.vy;
+      if (this.y < -10) this.reset(false);
+    }
+    draw() {
+      ctx.save();
+      ctx.globalAlpha = this.alpha;
+      ctx.fillStyle   = this.color;
+      ctx.shadowBlur  = 6;
+      ctx.shadowColor = this.color;
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+    }
+  }
+
+  for (let i = 0; i < 120; i++) particles.push(new Particle());
+
+  function loop() {
+    ctx.clearRect(0, 0, W, H);
+    particles.forEach(p => { p.update(); p.draw(); });
+    requestAnimationFrame(loop);
+  }
+  loop();
+})();
+
+/* ============================================================
+   TYPING EFFECT
+============================================================ */
+(function () {
+  const el   = document.getElementById('typed-title');
+  const text = 'Li Zhiyue · 李智月';
+  let i = 0;
+  function type() {
+    if (i <= text.length) {
+      el.textContent = text.slice(0, i) + (i < text.length ? '|' : '');
+      i++;
+      setTimeout(type, 80);
+    }
+  }
+  setTimeout(type, 400);
+})();
+
+/* ============================================================
+   SCROLL REVEAL
+============================================================ */
+(function () {
+  const els = document.querySelectorAll('.reveal');
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
+    });
+  }, { threshold: 0.05, rootMargin: '0px 0px -40px 0px' });
+  els.forEach(el => obs.observe(el));
+  // Fallback: reveal all after 1.5s in case IntersectionObserver doesn't fire
+  setTimeout(() => {
+    document.querySelectorAll('.reveal:not(.visible)').forEach(el => el.classList.add('visible'));
+  }, 1500);
+})();
+
+/* ============================================================
+   SCROLL PROGRESS + NAV ACTIVE
+============================================================ */
+(function () {
+  const bar      = document.getElementById('scroll-bar');
+  const navLinks = document.querySelectorAll('nav a');
+  const sections = ['hero','education','awards','projects','skills','contact']
+                   .map(id => document.getElementById(id));
+
+  window.addEventListener('scroll', () => {
+    const max = document.documentElement.scrollHeight - window.innerHeight;
+    bar.style.width = (max > 0 ? window.scrollY / max * 100 : 0) + '%';
+
+    // active nav
+    let cur = 0;
+    sections.forEach((s, i) => {
+      if (s && window.scrollY >= s.offsetTop - 120) cur = i;
+    });
+    navLinks.forEach((a, i) => a.classList.toggle('active', i === cur));
+  });
+})();
+
+/* ============================================================
+   COURSE TABLE TOGGLE
+============================================================ */
+function toggleCourses() {
+  const wrap = document.getElementById('course-wrap');
+  const btn  = document.getElementById('course-btn');
+  const open = wrap.classList.toggle('open');
+  btn.textContent = open ? '📚 收起课程成绩' : '📚 查看相关课程成绩';
+}
+</script>
+</body>
+</html>
