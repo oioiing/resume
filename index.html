@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" data-theme="dark" data-lang="zh">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -46,6 +46,35 @@
       --card-r:    16px;
       --trans:     0.35s cubic-bezier(.4,0,.2,1);
     }
+
+    /* Light theme */
+    [data-theme="light"] {
+      --bg:        #f5f7fa;
+      --bg2:       #ffffff;
+      --surface:   rgba(255, 255, 255, 0.82);
+      --border:    rgba(110, 140, 255, 0.18);
+      --accent:    #4f6df5;
+      --accent2:   #8b5cf6;
+      --accent3:   #0d9668;
+      --text:      #1e293b;
+      --text2:     #64748b;
+    }
+    [data-theme="light"] body { background: var(--bg); }
+    [data-theme="light"] #bg-canvas { opacity: 0.3; }
+    [data-theme="light"] .avatar-inner { background: var(--bg2); }
+    [data-theme="light"] .card,
+    [data-theme="light"] .award-card,
+    [data-theme="light"] .tl-card,
+    [data-theme="light"] .skill-category,
+    [data-theme="light"] .contact-item {
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    }
+    [data-theme="light"] nav {
+      background: rgba(255,255,255,0.85);
+      border-bottom: 1px solid var(--border);
+    }
+    [data-theme="light"] th { background: rgba(79,109,245,0.08); }
+
     html { scroll-behavior: smooth; }
     body {
       background: var(--bg);
@@ -439,6 +468,80 @@
       transition: width .1s linear;
     }
 
+
+    /* ============================================================
+       LANGUAGE TOGGLE
+    ============================================================ */
+    [data-lang="en"] .lang-zh,
+    [data-lang="zh"] .lang-en {
+      display: none;
+    }
+
+    /* ============================================================
+       TOGGLE CONTROLS
+    ============================================================ */
+    .toggle-controls {
+      position: fixed;
+      top: 16px;
+      right: 20px;
+      z-index: 150;
+      display: flex;
+      gap: 8px;
+    }
+    .toggle-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      backdrop-filter: blur(10px);
+      color: var(--text);
+      font-size: 1.1rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform var(--trans), border-color var(--trans), box-shadow var(--trans);
+    }
+    .toggle-btn:hover {
+      transform: scale(1.1);
+      border-color: var(--accent);
+      box-shadow: 0 4px 16px rgba(110,140,255,0.2);
+    }
+
+    /* ============================================================
+       DECORATIVE ACCENT LINES
+    ============================================================ */
+    section {
+      position: relative;
+    }
+    section::before {
+      content: '';
+      position: absolute;
+      left: -20px;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: linear-gradient(to bottom, transparent, var(--accent), var(--accent2), transparent);
+      opacity: 0.3;
+      border-radius: 2px;
+    }
+    #hero::before { display: none; }
+    .section-title {
+      position: relative;
+      padding-bottom: 14px;
+    }
+    .section-title::before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 60px;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      border-radius: 2px;
+    }
+
     /* ============================================================
        RESPONSIVE
     ============================================================ */
@@ -448,6 +551,9 @@
       main { padding: 72px 14px 40px; }
       .tl-card { padding: 16px; }
       .card { padding: 18px; }
+      .toggle-controls { top: 10px; right: 10px; }
+      .toggle-btn { width: 34px; height: 34px; font-size: 0.95rem; }
+      section::before { left: -10px; }
     }
   </style>
 </head>
@@ -459,14 +565,20 @@
 <!-- Particle canvas -->
 <canvas id="bg-canvas"></canvas>
 
+<!-- Toggle controls -->
+<div class="toggle-controls">
+  <button class="toggle-btn" id="theme-toggle" onclick="toggleTheme()" title="Toggle Light/Dark Mode">🌙</button>
+  <button class="toggle-btn" id="lang-toggle" onclick="toggleLang()" title="切换中英文 / Toggle Language">中</button>
+</div>
+
 <!-- Navigation -->
 <nav id="nav">
-  <a href="#hero"      class="active">主页</a>
-  <a href="#education">教育</a>
-  <a href="#awards">   荣誉</a>
-  <a href="#projects"> 项目</a>
-  <a href="#skills">   技能</a>
-  <a href="#contact">  联系</a>
+  <a href="#hero" class="active"><span class="lang-zh">主页</span><span class="lang-en">Home</span></a>
+  <a href="#education"><span class="lang-zh">教育</span><span class="lang-en">Edu</span></a>
+  <a href="#awards"><span class="lang-zh">荣誉</span><span class="lang-en">Awards</span></a>
+  <a href="#projects"><span class="lang-zh">项目</span><span class="lang-en">Projects</span></a>
+  <a href="#skills"><span class="lang-zh">技能</span><span class="lang-en">Skills</span></a>
+  <a href="#contact"><span class="lang-zh">联系</span><span class="lang-en">Contact</span></a>
 </nav>
 
 <main>
@@ -481,8 +593,8 @@
     <div class="badges">
       <span class="badge"><span class="dot" style="background:#6e8cff"></span>GPA 3.19 / 4.0</span>
       <span class="badge"><span class="dot" style="background:#34d399"></span>CET-6 428</span>
-      <span class="badge"><span class="dot" style="background:#a78bfa"></span>iGEM 国际银奖</span>
-      <span class="badge"><span class="dot" style="background:#f59e0b"></span>软著登字第12098830号</span>
+      <span class="badge"><span class="dot" style="background:#a78bfa"></span><span class="lang-zh">iGEM 国际银奖</span><span class="lang-en">iGEM Silver Medal</span></span>
+      <span class="badge"><span class="dot" style="background:#f59e0b"></span><span class="lang-zh">软著登字第12098830号</span><span class="lang-en">Software Copyright No.12098830</span></span>
     </div>
   </section>
 
@@ -490,30 +602,30 @@
   <section id="education">
     <div class="section-title reveal">
       <div class="section-icon">🎓</div>
-      教育背景
+      <span class="lang-zh">教育背景</span><span class="lang-en">Education</span>
     </div>
     <div class="card reveal">
       <div class="edu-header">
-        <h3>新疆大学 · 未来技术学院</h3>
+        <h3><span class="lang-zh">新疆大学 · 未来技术学院</span><span class="lang-en">Xinjiang University · College of Future Technology</span></h3>
         <span class="date">2020.09 — 2024.06</span>
       </div>
-      <div class="edu-sub">计算机科学与技术 · 工学学士</div>
+      <div class="edu-sub"><span class="lang-zh">计算机科学与技术 · 工学学士</span><span class="lang-en">Computer Science &amp; Technology · Bachelor of Engineering</span></div>
       <span class="edu-gpa">GPA 3.19 / 4.0</span>
-      <button class="course-toggle" id="course-btn" onclick="toggleCourses()">📚 查看相关课程成绩</button>
+      <button class="course-toggle" id="course-btn" onclick="toggleCourses()">📚 <span class="lang-zh">查看相关课程成绩</span><span class="lang-en">View Course Grades</span></button>
       <div class="course-table-wrap" id="course-wrap">
         <table>
-          <thead><tr><th>课程名称</th><th>成绩</th></tr></thead>
+          <thead><tr><th><span class="lang-zh">课程名称</span><span class="lang-en">Course</span></th><th><span class="lang-zh">成绩</span><span class="lang-en">Grade</span></th></tr></thead>
           <tbody>
-            <tr><td>程序设计基础</td><td>94</td></tr>
-            <tr><td>信息科学概论</td><td>98</td></tr>
-            <tr><td>高等代数与几何</td><td>88</td></tr>
-            <tr><td>面向对象程序设计</td><td>88</td></tr>
-            <tr><td>程序设计方法与实践</td><td>91</td></tr>
-            <tr><td>数据库系统原理</td><td>91</td></tr>
-            <tr><td>操作系统原理</td><td>89</td></tr>
-            <tr><td>人工智能概论</td><td>91</td></tr>
-            <tr><td>计算机网络</td><td>80</td></tr>
-            <tr><td>科学与工程计算</td><td>80</td></tr>
+            <tr><td><span class="lang-zh">程序设计基础</span><span class="lang-en">Programming Fundamentals</span></td><td>94</td></tr>
+            <tr><td><span class="lang-zh">信息科学概论</span><span class="lang-en">Intro to Information Science</span></td><td>98</td></tr>
+            <tr><td><span class="lang-zh">高等代数与几何</span><span class="lang-en">Advanced Algebra &amp; Geometry</span></td><td>88</td></tr>
+            <tr><td><span class="lang-zh">面向对象程序设计</span><span class="lang-en">Object-Oriented Programming</span></td><td>88</td></tr>
+            <tr><td><span class="lang-zh">程序设计方法与实践</span><span class="lang-en">Programming Methods &amp; Practice</span></td><td>91</td></tr>
+            <tr><td><span class="lang-zh">数据库系统原理</span><span class="lang-en">Database Systems</span></td><td>91</td></tr>
+            <tr><td><span class="lang-zh">操作系统原理</span><span class="lang-en">Operating Systems</span></td><td>89</td></tr>
+            <tr><td><span class="lang-zh">人工智能概论</span><span class="lang-en">Intro to Artificial Intelligence</span></td><td>91</td></tr>
+            <tr><td><span class="lang-zh">计算机网络</span><span class="lang-en">Computer Networks</span></td><td>80</td></tr>
+            <tr><td><span class="lang-zh">科学与工程计算</span><span class="lang-en">Scientific &amp; Engineering Computing</span></td><td>80</td></tr>
           </tbody>
         </table>
       </div>
@@ -524,32 +636,32 @@
   <section id="awards">
     <div class="section-title reveal">
       <div class="section-icon">🏆</div>
-      荣誉奖项
+      <span class="lang-zh">荣誉奖项</span><span class="lang-en">Honors &amp; Awards</span>
     </div>
     <div class="awards-grid">
       <div class="award-card reveal">
         <div class="award-medal">🥈</div>
-        <div class="award-title">iGEM 国际基因工程机器大赛</div>
+        <div class="award-title"><span class="lang-zh">iGEM 国际基因工程机器大赛</span><span class="lang-en">iGEM — Int'l Genetically Engineered Machine</span></div>
         <div class="award-meta">2023.11</div>
-        <span class="award-level level-intl">国际银奖</span>
+        <span class="award-level level-intl"><span class="lang-zh">国际银奖</span><span class="lang-en">International Silver</span></span>
       </div>
       <div class="award-card reveal">
         <div class="award-medal">🥈</div>
-        <div class="award-title">H3C 全国高校数字技术大赛</div>
+        <div class="award-title"><span class="lang-zh">H3C 全国高校数字技术大赛</span><span class="lang-en">H3C National Digital Technology Contest</span></div>
         <div class="award-meta">2022.10</div>
-        <span class="award-level level-prov">新疆赛区二等奖</span>
+        <span class="award-level level-prov"><span class="lang-zh">新疆赛区二等奖</span><span class="lang-en">Xinjiang Region 2nd Prize</span></span>
       </div>
       <div class="award-card reveal">
         <div class="award-medal">🥉</div>
-        <div class="award-title">互联网+ 大学生创新创业大赛</div>
+        <div class="award-title"><span class="lang-zh">互联网+ 大学生创新创业大赛</span><span class="lang-en">Internet+ Innovation &amp; Entrepreneurship</span></div>
         <div class="award-meta">2023.08</div>
-        <span class="award-level level-prov">新疆赛区铜奖</span>
+        <span class="award-level level-prov"><span class="lang-zh">新疆赛区铜奖</span><span class="lang-en">Xinjiang Region Bronze</span></span>
       </div>
       <div class="award-card reveal">
         <div class="award-medal">🥈</div>
-        <div class="award-title">大学物理实验竞赛（命题创新）</div>
+        <div class="award-title"><span class="lang-zh">大学物理实验竞赛（命题创新）</span><span class="lang-en">Physics Experiment Contest (Innovation)</span></div>
         <div class="award-meta">2021.09</div>
-        <span class="award-level level-natl">二等奖</span>
+        <span class="award-level level-natl"><span class="lang-zh">二等奖</span><span class="lang-en">2nd Prize</span></span>
       </div>
     </div>
   </section>
@@ -558,7 +670,7 @@
   <section id="projects">
     <div class="section-title reveal">
       <div class="section-icon">🔬</div>
-      项目经历
+      <span class="lang-zh">项目经历</span><span class="lang-en">Projects</span>
     </div>
     <div class="timeline">
 
@@ -566,17 +678,17 @@
         <div class="tl-dot"></div>
         <div class="tl-card">
           <div class="tl-header">
-            <div class="tl-title">🧬 iGEM — 国际基因工程机器大赛</div>
+            <div class="tl-title">🧬 <span class="lang-zh">iGEM — 国际基因工程机器大赛</span><span class="lang-en">iGEM — Int'l Genetically Engineered Machine</span></div>
             <span class="tl-date">2023.04 — 2023.11</span>
           </div>
-          <div class="tl-role">网页组负责人 &amp; 数据分析</div>
-          <div class="tl-desc">筛选并验证增强微生物耐盐碱性的关键基因，利用多组学（基因组学、转录组学）联合分析方法，在大肠杆菌和枯草芽孢杆菌中完成功能验证。</div>
+          <div class="tl-role"><span class="lang-zh">网页组负责人 &amp; 数据分析</span><span class="lang-en">Web Team Lead &amp; Data Analysis</span></div>
+          <div class="tl-desc"><span class="lang-zh">筛选并验证增强微生物耐盐碱性的关键基因，利用多组学（基因组学、转录组学）联合分析方法，在大肠杆菌和枯草芽孢杆菌中完成功能验证。</span><span class="lang-en">Screened and validated key genes enhancing microbial salt-alkali tolerance using multi-omics (genomics, transcriptomics) analysis in E. coli and B. subtilis.</span></div>
           <ul class="tl-list">
-            <li>主导项目官网前端开发——UI 设计、部署与科学数据可视化</li>
-            <li>使用 Python 和 R 完成数据清洗、分析与可视化</li>
-            <li>独立参与微生物培养和基因功能验证湿实验</li>
+            <li><span class="lang-zh">主导项目官网前端开发——UI 设计、部署与科学数据可视化</span><span class="lang-en">Led project website frontend — UI design, deployment &amp; scientific data visualization</span></li>
+            <li><span class="lang-zh">使用 Python 和 R 完成数据清洗、分析与可视化</span><span class="lang-en">Data cleaning, analysis &amp; visualization with Python and R</span></li>
+            <li><span class="lang-zh">独立参与微生物培养和基因功能验证湿实验</span><span class="lang-en">Independently performed microbial culture and gene function wet lab experiments</span></li>
           </ul>
-          <div class="tl-achieve">🏅 国际银奖</div>
+          <div class="tl-achieve">🏅 <span class="lang-zh">国际银奖</span><span class="lang-en">International Silver Medal</span></div>
         </div>
       </div>
 
@@ -584,17 +696,17 @@
         <div class="tl-dot"></div>
         <div class="tl-card">
           <div class="tl-header">
-            <div class="tl-title">🦴 国家级大创项目 — 骨质疏松专题数据库</div>
+            <div class="tl-title">🦴 <span class="lang-zh">国家级大创项目 — 骨质疏松专题数据库</span><span class="lang-en">National Innovation Project — Osteoporosis Database</span></div>
             <span class="tl-date">2022.09 — 2024.06</span>
           </div>
-          <div class="tl-role">前端开发 &amp; 数据分析</div>
-          <div class="tl-desc">针对老龄化背景下骨质疏松公众认知不足的问题，构建多模态数据融合的专题数据库，辅助医生及用户进行骨健康评估与个性化防治。</div>
+          <div class="tl-role"><span class="lang-zh">前端开发 &amp; 数据分析</span><span class="lang-en">Frontend Dev &amp; Data Analysis</span></div>
+          <div class="tl-desc"><span class="lang-zh">针对老龄化背景下骨质疏松公众认知不足的问题，构建多模态数据融合的专题数据库，辅助医生及用户进行骨健康评估与个性化防治。</span><span class="lang-en">Built a multi-modal data fusion database for osteoporosis to assist physicians and users in bone health assessment and personalized prevention.</span></div>
           <ul class="tl-list">
-            <li>独立完成前端搭建、UI 设计、功能优化与部署上线</li>
-            <li>负责数据预处理、清洗和分析，支持风险评估模型构建</li>
-            <li>参与 Bagging 集成学习与深度学习骨质疏松风险评估模型训练</li>
+            <li><span class="lang-zh">独立完成前端搭建、UI 设计、功能优化与部署上线</span><span class="lang-en">Independently built frontend, UI design, optimization &amp; deployment</span></li>
+            <li><span class="lang-zh">负责数据预处理、清洗和分析，支持风险评估模型构建</span><span class="lang-en">Data preprocessing, cleaning &amp; analysis for risk assessment model</span></li>
+            <li><span class="lang-zh">参与 Bagging 集成学习与深度学习骨质疏松风险评估模型训练</span><span class="lang-en">Participated in Bagging ensemble &amp; deep learning model training for osteoporosis risk</span></li>
           </ul>
-          <div class="tl-achieve">📜 软件著作权 — <strong>软著登字第12098830号</strong></div>
+          <div class="tl-achieve">📜 <span class="lang-zh">软件著作权 — <strong>软著登字第12098830号</strong></span><span class="lang-en">Software Copyright — <strong>No. 12098830</strong></span></div>
         </div>
       </div>
 
@@ -602,17 +714,17 @@
         <div class="tl-dot"></div>
         <div class="tl-card">
           <div class="tl-header">
-            <div class="tl-title">🦠 互联网+ — 病死畜禽无害化处理</div>
+            <div class="tl-title">🦠 <span class="lang-zh">互联网+ — 病死畜禽无害化处理</span><span class="lang-en">Internet+ — Livestock Carcass Treatment</span></div>
             <span class="tl-date">2023.08</span>
           </div>
-          <div class="tl-role">项目负责人</div>
-          <div class="tl-desc">开发基于微生物的病死畜禽高效低污染无害化处理方案，创新微生物菌群比例和模块化发酵装置，实现快速降解、尾气集中处理与有机肥转化。</div>
+          <div class="tl-role"><span class="lang-zh">项目负责人</span><span class="lang-en">Project Lead</span></div>
+          <div class="tl-desc"><span class="lang-zh">开发基于微生物的病死畜禽高效低污染无害化处理方案，创新微生物菌群比例和模块化发酵装置，实现快速降解、尾气集中处理与有机肥转化。</span><span class="lang-en">Developed a microbial-based efficient and low-pollution treatment solution for diseased livestock carcasses, with innovative fermentation and organic fertilizer conversion.</span></div>
           <ul class="tl-list">
-            <li>负责整体项目规划、团队管理和研发协调</li>
-            <li>参与核心技术设计与优化；监督发酵装置研发及微生物调试</li>
-            <li>主导竞赛申报材料、对外展示及项目推广</li>
+            <li><span class="lang-zh">负责整体项目规划、团队管理和研发协调</span><span class="lang-en">Overall project planning, team management &amp; R&amp;D coordination</span></li>
+            <li><span class="lang-zh">参与核心技术设计与优化；监督发酵装置研发及微生物调试</span><span class="lang-en">Core technical design &amp; optimization; supervised fermentation device R&amp;D</span></li>
+            <li><span class="lang-zh">主导竞赛申报材料、对外展示及项目推广</span><span class="lang-en">Led competition submissions, presentations &amp; project promotion</span></li>
           </ul>
-          <div class="tl-achieve">📜 参与起草 <strong>T/WSWXH 007—2022</strong> 新疆微生物学会团体标准</div>
+          <div class="tl-achieve">📜 <span class="lang-zh">参与起草 <strong>T/WSWXH 007—2022</strong> 新疆微生物学会团体标准</span><span class="lang-en">Co-drafted <strong>T/WSWXH 007—2022</strong> Xinjiang Microbiology Society standard</span></div>
         </div>
       </div>
 
@@ -620,15 +732,15 @@
         <div class="tl-dot"></div>
         <div class="tl-card">
           <div class="tl-header">
-            <div class="tl-title">🤖 AI 实验室科研</div>
+            <div class="tl-title">🤖 <span class="lang-zh">AI 实验室科研</span><span class="lang-en">AI Lab Research</span></div>
             <span class="tl-date">2022.09 — 2024.06</span>
           </div>
-          <div class="tl-role">科研助理</div>
-          <div class="tl-desc">在导师指导下从事多模态数据处理与融合研究，参与深度学习多模态分类模型优化及多源异构数据对齐与融合算法设计。</div>
+          <div class="tl-role"><span class="lang-zh">科研助理</span><span class="lang-en">Research Assistant</span></div>
+          <div class="tl-desc"><span class="lang-zh">在导师指导下从事多模态数据处理与融合研究，参与深度学习多模态分类模型优化及多源异构数据对齐与融合算法设计。</span><span class="lang-en">Conducted multi-modal data processing &amp; fusion research under mentorship; optimized deep learning classification models and multi-source data alignment algorithms.</span></div>
           <ul class="tl-list">
-            <li>负责多模态数据预处理与数据清洗流水线设计</li>
-            <li>使用 PyTorch 训练和调优深度学习模型</li>
-            <li>协助开发多源异构数据对齐与融合算法</li>
+            <li><span class="lang-zh">负责多模态数据预处理与数据清洗流水线设计</span><span class="lang-en">Designed multi-modal data preprocessing &amp; cleaning pipelines</span></li>
+            <li><span class="lang-zh">使用 PyTorch 训练和调优深度学习模型</span><span class="lang-en">Trained &amp; fine-tuned deep learning models with PyTorch</span></li>
+            <li><span class="lang-zh">协助开发多源异构数据对齐与融合算法</span><span class="lang-en">Assisted in multi-source heterogeneous data alignment &amp; fusion algorithms</span></li>
           </ul>
         </div>
       </div>
@@ -640,11 +752,11 @@
   <section id="skills">
     <div class="section-title reveal">
       <div class="section-icon">🛠️</div>
-      技术技能
+      <span class="lang-zh">技术技能</span><span class="lang-en">Technical Skills</span>
     </div>
     <div class="skills-grid">
       <div class="skill-category reveal">
-        <div class="skill-cat-title">💻 编程语言</div>
+        <div class="skill-cat-title">💻 <span class="lang-zh">编程语言</span><span class="lang-en">Languages</span></div>
         <div class="skill-tags">
           <span class="skill-tag">Python</span>
           <span class="skill-tag">R</span>
@@ -654,7 +766,7 @@
         </div>
       </div>
       <div class="skill-category reveal">
-        <div class="skill-cat-title">⚙️ 框架与工具</div>
+        <div class="skill-cat-title">⚙️ <span class="lang-zh">框架与工具</span><span class="lang-en">Frameworks &amp; Tools</span></div>
         <div class="skill-tags">
           <span class="skill-tag">PyTorch</span>
           <span class="skill-tag">Bagging</span>
@@ -663,21 +775,21 @@
         </div>
       </div>
       <div class="skill-category reveal">
-        <div class="skill-cat-title">📊 数据技能</div>
+        <div class="skill-cat-title">📊 <span class="lang-zh">数据技能</span><span class="lang-en">Data Skills</span></div>
         <div class="skill-tags">
-          <span class="skill-tag">数据预处理</span>
-          <span class="skill-tag">特征工程</span>
-          <span class="skill-tag">数据可视化</span>
-          <span class="skill-tag">多组学分析</span>
+          <span class="skill-tag"><span class="lang-zh">数据预处理</span><span class="lang-en">Data Preprocessing</span></span>
+          <span class="skill-tag"><span class="lang-zh">特征工程</span><span class="lang-en">Feature Engineering</span></span>
+          <span class="skill-tag"><span class="lang-zh">数据可视化</span><span class="lang-en">Data Visualization</span></span>
+          <span class="skill-tag"><span class="lang-zh">多组学分析</span><span class="lang-en">Multi-omics Analysis</span></span>
         </div>
       </div>
       <div class="skill-category reveal">
-        <div class="skill-cat-title">🌐 Web &amp; 其他</div>
+        <div class="skill-cat-title">🌐 <span class="lang-zh">Web &amp; 其他</span><span class="lang-en">Web &amp; Others</span></div>
         <div class="skill-tags">
-          <span class="skill-tag">前端开发</span>
-          <span class="skill-tag">Web 部署</span>
-          <span class="skill-tag">微生物培养</span>
-          <span class="skill-tag">基因功能验证</span>
+          <span class="skill-tag"><span class="lang-zh">前端开发</span><span class="lang-en">Frontend Dev</span></span>
+          <span class="skill-tag"><span class="lang-zh">Web 部署</span><span class="lang-en">Web Deployment</span></span>
+          <span class="skill-tag"><span class="lang-zh">微生物培养</span><span class="lang-en">Microbial Culture</span></span>
+          <span class="skill-tag"><span class="lang-zh">基因功能验证</span><span class="lang-en">Gene Function Validation</span></span>
         </div>
       </div>
     </div>
@@ -687,7 +799,7 @@
   <section id="contact">
     <div class="section-title reveal">
       <div class="section-icon">📬</div>
-      联系方式
+      <span class="lang-zh">联系方式</span><span class="lang-en">Contact</span>
     </div>
     <div class="contact-wrap reveal">
       <a href="mailto:lizhiyue0317@gmail.com" class="contact-item">
@@ -817,11 +929,53 @@
    COURSE TABLE TOGGLE
 ============================================================ */
 function toggleCourses() {
-  const wrap = document.getElementById('course-wrap');
-  const btn  = document.getElementById('course-btn');
-  const open = wrap.classList.toggle('open');
-  btn.textContent = open ? '📚 收起课程成绩' : '📚 查看相关课程成绩';
+  var wrap = document.getElementById('course-wrap');
+  var open = wrap.classList.toggle('open');
+  var btn = document.getElementById('course-btn');
+  var zhSpan = btn.querySelector('.lang-zh');
+  var enSpan = btn.querySelector('.lang-en');
+  if (zhSpan) zhSpan.textContent = open ? '收起课程成绩' : '查看相关课程成绩';
+  if (enSpan) enSpan.textContent = open ? 'Hide Course Grades' : 'View Course Grades';
 }
+
+/* ============================================================
+   THEME TOGGLE
+============================================================ */
+function toggleTheme() {
+  var html = document.documentElement;
+  var current = html.getAttribute('data-theme');
+  var next = current === 'light' ? 'dark' : 'light';
+  html.setAttribute('data-theme', next);
+  localStorage.setItem('theme', next);
+  document.getElementById('theme-toggle').textContent = next === 'light' ? '☀️' : '🌙';
+}
+
+/* ============================================================
+   LANGUAGE TOGGLE
+============================================================ */
+function toggleLang() {
+  var html = document.documentElement;
+  var current = html.getAttribute('data-lang');
+  var next = current === 'en' ? 'zh' : 'en';
+  html.setAttribute('data-lang', next);
+  localStorage.setItem('lang', next);
+  document.getElementById('lang-toggle').textContent = next === 'en' ? 'EN' : '中';
+}
+
+/* ============================================================
+   INIT THEME & LANGUAGE FROM localStorage
+============================================================ */
+(function init() {
+  var themeSaved = localStorage.getItem('theme') || 'dark';
+  document.documentElement.setAttribute('data-theme', themeSaved);
+  var themeBtn = document.getElementById('theme-toggle');
+  if (themeBtn) themeBtn.textContent = themeSaved === 'light' ? '☀️' : '🌙';
+
+  var langSaved = localStorage.getItem('lang') || 'zh';
+  document.documentElement.setAttribute('data-lang', langSaved);
+  var langBtn = document.getElementById('lang-toggle');
+  if (langBtn) langBtn.textContent = langSaved === 'en' ? 'EN' : '中';
+})();
 </script>
 </body>
 </html>
