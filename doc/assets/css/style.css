@@ -77,6 +77,7 @@ a:hover { text-decoration: none; }
   top: -15vw;
   right: -10vw;
   background: radial-gradient(circle, rgba(251,146,60,0.12) 0%, transparent 70%);
+  animation: orb-float 8s ease-in-out infinite;
 }
 .bg-orbs::after {
   width: 50vw;
@@ -84,6 +85,14 @@ a:hover { text-decoration: none; }
   bottom: 10vw;
   left: -15vw;
   background: radial-gradient(circle, rgba(192,132,252,0.10) 0%, transparent 70%);
+  animation: orb-float 10s ease-in-out infinite reverse;
+}
+@keyframes orb-float {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(20px, -15px) scale(1.04); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .bg-orbs::before, .bg-orbs::after { animation: none; }
 }
 [data-theme="light"] .bg-orbs::before {
   background: radial-gradient(circle, rgba(249,115,22,0.10) 0%, transparent 70%);
@@ -100,7 +109,7 @@ a:hover { text-decoration: none; }
   top: 0; left: 0;
   height: 2px;
   width: 0%;
-  background: var(--highlight);
+  background: linear-gradient(90deg, var(--highlight), var(--highlight2));
   z-index: 300;
   transition: width 0.1s linear;
 }
@@ -192,18 +201,18 @@ a:hover { text-decoration: none; }
 #nav a::after {
   content: '';
   position: absolute;
-  bottom: 10px;
+  bottom: 0;
   left: 50%;
-  transform: translateX(-50%) scale(0);
-  width: 4px;
-  height: 4px;
-  border-radius: 50%;
+  transform: translateX(-50%) scaleX(0);
+  width: 60%;
+  height: 2px;
+  border-radius: 1px;
   background: var(--highlight);
   transition: transform var(--trans);
 }
 #nav a:hover { color: var(--text); }
-#nav a.active { color: var(--text); }
-#nav a.active::after { transform: translateX(-50%) scale(1); }
+#nav a.active { color: var(--highlight); }
+#nav a.active::after { transform: translateX(-50%) scaleX(1); }
 
 /* ============================================================
    MAIN LAYOUT
@@ -264,7 +273,18 @@ section { margin-bottom: 96px; }
   position: relative;
 }
 .hero-deco {
-  display: none;
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  font-size: 8rem;
+  font-weight: 700;
+  color: var(--highlight);
+  opacity: 0.06;
+  line-height: 1;
+  pointer-events: none;
+  font-family: 'Playfair Display', serif;
+  letter-spacing: -0.04em;
+  user-select: none;
 }
 .hero-name-row {
   display: flex;
@@ -282,17 +302,16 @@ section { margin-bottom: 96px; }
   font-family: 'Playfair Display', 'Noto Serif SC', Georgia, serif;
 }
 .hero-name-zh {
-  font-size: 1.1rem;
-  font-weight: 400;
-  color: var(--text2);
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: var(--highlight);
   padding-bottom: 10px;
   font-family: 'Noto Sans SC', sans-serif;
 }
 .hero-divider {
-  width: 40px;
-  height: 1px;
-  background: var(--highlight);
-  opacity: 0.7;
+  width: 120px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--highlight), transparent);
   margin-bottom: 24px;
 }
 .hero-subtitle {
@@ -447,10 +466,24 @@ td:last-child { color: var(--text); font-weight: 600; font-family: 'Inter', sans
   background: rgba(251,146,60,0.04);
 }
 .award-medal {
-  font-size: 1.2rem;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.6rem;
+  font-weight: 700;
   flex-shrink: 0;
   line-height: 1;
+  font-family: 'Inter', sans-serif;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: #fff;
+  background: var(--highlight);
 }
+.award-medal.medal-silver { background: var(--highlight); }
+.award-medal.medal-bronze { background: var(--highlight2); }
 .award-meta {
   font-size: 0.78rem;
   color: var(--text2);
@@ -554,12 +587,12 @@ td:last-child { color: var(--text); font-weight: 600; font-family: 'Inter', sans
   letter-spacing: 0.04em;
 }
 .tl-desc {
-  font-size: 0.87rem;
+  font-size: 0.9rem;
   color: var(--text2);
   margin-bottom: 12px;
   line-height: 1.8;
 }
-.tl-list { list-style: none; font-size: 0.85rem; }
+.tl-list { list-style: none; font-size: 0.88rem; }
 .tl-list li {
   display: flex;
   align-items: flex-start;
@@ -625,9 +658,13 @@ td:last-child { color: var(--text); font-weight: 600; font-family: 'Inter', sans
   opacity: 1;
 }
 .skill-cat-icon {
-  font-size: 1.3rem;
+  font-size: 0.82rem;
+  font-weight: 700;
   margin-bottom: 10px;
   line-height: 1;
+  color: var(--highlight);
+  font-family: 'Inter', sans-serif;
+  letter-spacing: 0.04em;
 }
 .skill-cat-title {
   font-size: 0.78rem;
